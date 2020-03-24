@@ -2,16 +2,15 @@
 # -*- coding: utf-8 -*-
 
 """ Documentation here.
-    conda create -n bokeh -c conda-forge ipython bokeh geopandas python=3
-
-    https://gist.github.com/rogerallen/1583593
-    https://towardsdatascience.com/walkthrough-mapping-basics-with-bokeh-and-geopandas-in-python-43f40aa5b7e9
+    conda create -n covid -c conda-forge ipython requests matplotlib python=3
+    conda activate covid
 
 """
 
 # Imports
 import fx
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import numpy as np
 
 # Parameters
@@ -20,20 +19,22 @@ refresh = False  # set flag to true if data should be refreshed
 # Load data
 usData, stateData, stateSummary, italyData = fx.getDatasets(refresh=refresh)
 
-
-
 # %% Plot cases by date
 
-# plt.plot(usData['date'], usData['positive'], label='US')
-# plt.plot(italyData['date'], italyData['totalPositive'], label='Italy')
-# plt.plot(stateData['WA']['date'], stateData['WA']['positive'], label='Washington')
-# plt.plot(stateData['CA']['date'], stateData['CA']['positive'], label='California')
-# plt.legend()
-# plt.show()
+plt.plot(usData['date'], usData['positive'], label='US')
+plt.plot(italyData['date'], italyData['totalPositive'], label='Italy')
+plt.plot(stateData['WA']['date'], stateData['WA']['positive'], label='Washington')
+plt.plot(stateData['CA']['date'], stateData['CA']['positive'], label='California')
+plt.legend()
+plt.tight_layout()
+ax = plt.gca()
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d'))
+plt.savefig('figs/positives_over_time.png')
+plt.show()
 
 # %%
 
-# define colors
+# define colors for states
 cv = iter(['red', 'purple', 'pink'])
 
 fig, ax1 = plt.subplots()
@@ -61,25 +62,7 @@ for state in stateData.keys():
 
 ax2.plot(growth[0:7])
 ax1.legend()
-plt.savefig('figs/update.png')
+plt.tight_layout()
+plt.savefig('figs/positives_over_100.png')
 plt.show()
 
-# # %% bar graph
-
-# plt.figure()
-# bars = np.zeros((6, len(italyData['cases']))) * np.nan
-# bars[0, :] = growth
-# bars[1, :] = orderData(italyData, metric)
-# x = orderData(usData, metric)
-# bars[2, 0:len(x)] = x
-# x = orderData(stateData['CA'], metric)
-# bars[3, 0:len(x)] = x
-# x = orderData(stateData['NY'], metric)
-# bars[4, 0:len(x)] = x
-# x = orderData(stateData['WA'], metric)
-# bars[5, 0:len(x)] = x
-
-# wdth = 0.4
-# for i in range(bars.shape[0]):
-#     plt.bar(np.arange(0, len(growth)*3, 3)+i*wdth, bars[i, :], width=wdth)
-# plt.show()
