@@ -70,7 +70,7 @@ def parseItaly(data):
             # cast dates to datetime, otherwise leave as int
             if key == 'data':
                 d = day['data']
-                d = datetime.datetime.strptime(d, "%Y-%m-%d %H:%M:%S").date()
+                d = datetime.datetime.strptime(d, "%Y-%m-%dT%H:%M:%S").date()
             else:
                 d = day[key]
             dataOut[enKey].append(d)

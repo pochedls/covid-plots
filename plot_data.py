@@ -25,6 +25,7 @@ plt.plot(usData['date'], usData['positive'], label='US')
 plt.plot(italyData['date'], italyData['totalPositive'], label='Italy')
 plt.plot(stateData['WA']['date'], stateData['WA']['positive'], label='Washington')
 plt.plot(stateData['CA']['date'], stateData['CA']['positive'], label='California')
+plt.plot(stateData['NY']['date'], stateData['NY']['positive'], label='New York')
 plt.legend()
 plt.tight_layout()
 ax = plt.gca()
@@ -56,9 +57,9 @@ for state in stateData.keys():
     if state in ['CA', 'WA', 'NY']:
         c = next(cv)
         ax1.plot(p, label=state, color=c)
-        ax2.plot(p[0:7], label=state, color=c)
+        ax2.plot(p[0:10], label=state, color=c, zorder=0)
     else:
-        ax2.plot(p[0:7], color='gray')
+        ax2.plot(p[0:10], color='gray')
 
 ax2.plot(growth[0:7])
 ax1.legend()
